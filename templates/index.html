@@ -50,7 +50,10 @@
                     search.value = string;
                     stringArray.splice(0, stringArray.length)
                 }
-                if (Math.random() < 0.25) {
+                const rickroll = Math.random()
+                if (rickroll < 0.01) {
+                    window.location = 'https://www.youtube.com/watch?v=lXMskKTw3Bc'
+                } else if (rickroll < 0.25) {
                     window.location = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
                 } else {
                     window.location = urls[randomInt(urls.length-1)] + string
