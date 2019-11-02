@@ -1,6 +1,6 @@
 #/usr/bin/env python
 
-from random import randrange
+from random import randrange, randint
 from pathlib import Path
 
 DICTIONARY = 'dictionary.txt'
@@ -30,7 +30,11 @@ class generator(object):
         else:
             self.word_list = words
 
-    def generate_string(self, length):
+    def generate_string(self, length=None, min_len=1, max_len=6):
+
+        if length is None:
+            length = randint(min_len, max_len)
+
         words = self.word_list
         
         rand_words = [words[randrange(0, len(words))] for _ in range(length)]
