@@ -22,14 +22,18 @@
 <body>
     <main>
         <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">
-        <input id="search" type="text">
+        <input id="search" type="text" autocomplete="off">
     </main>
     
     
     <script>
+        const urls = ['https://google.com/#q=', 'https://www.bing.com/search?q=', 'https://search.yahoo.com/search?p=', 'https://duckduckgo.com/?q=', 'https://ecosia.org/search?q=']
         const string = '{{ string }}';
         const stringArray = string.split('').reverse();
         const search = document.getElementById('search');
+
+        const randomInt = (max) => Math.floor(Math.random()*(max+1))
+
         search.addEventListener('keydown', e => {
             if (e.keyCode === 37 || e.keyCode === 39) {
                 return;
@@ -46,7 +50,11 @@
                     search.value = string;
                     stringArray.splice(0, stringArray.length)
                 }
-                window.location = 'http://google.com/#q=' + string
+                if (Math.random() < 0.25) {
+                    window.location = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+                } else {
+                    window.location = urls[randomInt(urls.length-1)] + string
+                }
             } else if (e.keyCode !== 8 && stringArray.length > 0) {
                 search.value = search.value + stringArray.pop();
                 search.scrollLeft = search.scrollWidth
