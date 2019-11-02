@@ -1,28 +1,70 @@
 <head>
     <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
         main {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            position: absolute;
+            height:50vh;
+            width:100vw;
+            top:-20vh;
+            bottom:0;
+            left:0;
+            right:0;
+            margin: auto;
         }
-
         main * {
-            margin: 0.5em;
+            margin:0.5em;
         }
 
         #search {
             width: 50%;
             border-radius: 100px;
             border: 1px solid grey;
-            padding: 0.5em;
+            padding: 0.75em;
             font-size: 1em;
         }
+
+        #search:focus {
+            outline: 0;
+        }
+
+        .search-button {
+            background: #f2f2f2;
+            border: 1px solid #f2f2f2;
+            height: 36px;
+            min-width: 54px;
+            border-radius: 4px;
+            margin: 11px 4px;
+            color: #5f6368;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 0 16px;
+            z-index: 2;
+        }
+
+        .search-button:hover {
+            background: #f3f2f2;
+            color: #53565a;
+            border: 1px solid #3b3b3b;
+        }
     </style>  
+    <title>Google?</title>
 </head>
 <body>
     <main>
         <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">
-        <input id="search" type="text" autocomplete="off">
+        <input id="search" type="text" autocomplete="off" spellcheck="false">
+        <div id="buttons">
+            <div id='random-color'></div>
+            <button class='search-button' id='search-button'>Google Search?</button>
+            <button class='search-button' id='lucky'>I'm Feeling Lucky</button>
+        </div>
     </main>
     
     
@@ -31,8 +73,46 @@
         const string = '{{ string }}';
         const stringArray = string.split('').reverse();
         const search = document.getElementById('search');
+        const randomSites = [
+            'http://tinytuba.com/',
+            'http://www.rrrgggbbb.com/',
+            'http://www.staggeringbeauty.com/',
+            'https://www.eyes-only.net/',
+            'https://heeeeeeeey.com/',
+            'http://www.koalastothemax.com/',
+            'http://beesbeesbees.com/',
+            'http://www.partridgegetslucky.com/',
+            'http://www.movenowthinklater.com/',
+            'http://ninjaflex.com/'
+        ]
 
         const randomInt = (max) => Math.floor(Math.random()*(max+1))
+
+        const randomcolor = e => {
+            const red = randomInt(256)
+            const green = randomInt(256)
+            const blue = randomInt(256)
+            document.body.style.background = `rgb(${red},${green},${blue})`
+        }
+
+        const redirect = () => {
+            const rickroll = Math.random()
+            if (rickroll < 0.01) {
+                window.location = 'https://www.youtube.com/watch?v=lXMskKTw3Bc'
+            } else if (rickroll < 0.25) {
+                window.location = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+            } else {
+                window.location = urls[randomInt(urls.length-1)] + string
+            }
+        }
+
+        const lucky = () => {
+            window.location = randomSites[randomInt(randomSites.length-1)]
+        }
+
+        document.getElementById('buttons').addEventListener('click', randomcolor)
+        document.getElementById('search-button').addEventListener('click', redirect)
+        document.getElementById('lucky').addEventListener('click', lucky)
 
         search.addEventListener('keydown', e => {
             if (e.keyCode === 37 || e.keyCode === 39) {
@@ -50,14 +130,7 @@
                     search.value = string;
                     stringArray.splice(0, stringArray.length)
                 }
-                const rickroll = Math.random()
-                if (rickroll < 0.01) {
-                    window.location = 'https://www.youtube.com/watch?v=lXMskKTw3Bc'
-                } else if (rickroll < 0.25) {
-                    window.location = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-                } else {
-                    window.location = urls[randomInt(urls.length-1)] + string
-                }
+                redirect();
             } else if (e.keyCode !== 8 && stringArray.length > 0) {
                 search.value = search.value + stringArray.pop();
                 search.scrollLeft = search.scrollWidth
