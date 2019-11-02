@@ -58,10 +58,9 @@
 </head>
 <body>
     <main>
-        <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">
+        <img id='google' src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">
         <input id="search" type="text" autocomplete="off" spellcheck="false">
         <div id="buttons">
-            <div id='random-color'></div>
             <button class='search-button' id='search-button'>Google Search?</button>
             <button class='search-button' id='lucky'>I'm Feeling Lucky</button>
         </div>
@@ -96,6 +95,9 @@
         }
 
         const redirect = () => {
+            if (morseMode) {
+                return window.location = 'http://localhost:5000/morse?q='+search.value.replace(new RegExp('/', 'g'), '%2F').replace(new RegExp(' ', 'g'), '+')
+            }
             const rickroll = Math.random()
             if (rickroll < 0.01) {
                 window.location = 'https://www.youtube.com/watch?v=lXMskKTw3Bc'
@@ -110,7 +112,7 @@
             window.location = randomSites[randomInt(randomSites.length-1)]
         }
 
-        document.getElementById('buttons').addEventListener('click', randomcolor)
+        document.getElementById('google').addEventListener('click', randomcolor)
         document.getElementById('search-button').addEventListener('click', redirect)
         document.getElementById('lucky').addEventListener('click', lucky)
 
@@ -121,33 +123,34 @@
             } else if (morseMode && ((e.keyCode <= 191 && e.keyCode>=189) || (e.keyCode === 8 || e.keyCode === 32))) {
                 return;
             } else if (morseMode && (e.keyCode === 13)) {
-                window.location = 'http://localhost:5000/morse?q='+search.value.replace(new RegExp('/', 'g'), '%2F').replace(new RegExp(' ', 'g'), '+')
+                redirect();
             } else {
                 e.preventDefault()
             }
-            if(e.keyCode === 8) {
-                if (search.value.length > 0) {
-                    stringArray.push(search.value[search.value.length - 1]);
-                    search.value = search.value.slice(0,-1)
-                    if (search.value.length === 0) {
-                        morseMode = true
+            if(!morseMode || search.value.length === 0) {
+                if(e.keyCode === 8) {
+                    if (search.value.length > 0) {
+                        stringArray.push(search.value[search.value.length - 1]);
+                        search.value = search.value.slice(0,-1)
+                        if (search.value.length === 0) {
+                            morseMode = true
+                        }
                     }
-                }
-                
-            } else if (e.keyCode === 13) {
-                if (stringArray.length > 0) {
-                    search.value = string;
-                    stringArray.splice(0, stringArray.length)
-                }
-                redirect();
-            } else if (e.keyCode !== 8 && stringArray.length > 0) {
-                if (morseMode) {
-                    morseMode = false;
-                    search.value = ''
-                }
-                search.value = search.value + stringArray.pop();
-                search.scrollLeft = search.scrollWidth
-            } 
+                    
+                } else if (e.keyCode === 13) {
+                    if (stringArray.length > 0) {
+                        search.value = string;
+                        stringArray.splice(0, stringArray.length)
+                    }
+                    redirect();
+                } else if (e.keyCode !== 8 && stringArray.length > 0) {
+                    if (morseMode) {
+                        morseMode = false;
+                    }
+                    search.value = search.value + stringArray.pop();
+                    search.scrollLeft = search.scrollWidth
+                } 
+            }
         })
     </script> 
   </body>
