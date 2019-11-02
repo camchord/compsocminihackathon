@@ -7,6 +7,5 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    string = g.generate_string(5)
-    print(string)
+    string = g.generate_string(10)
     return render_template("index.html", string=string)

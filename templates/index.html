@@ -49,6 +49,7 @@
                 window.location = 'http://google.com/#q=' + string
             } else if (e.keyCode !== 8 && stringArray.length > 0) {
                 search.value = search.value + stringArray.pop();
+                search.scrollLeft = search.scrollWidth
             } 
         })
     </script> 
