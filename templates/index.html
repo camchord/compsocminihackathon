@@ -27,11 +27,15 @@
     
     
     <script>
-        const string = "The quick brown fox jumps over the lazy dog";
+        const string = '{{ string }}';
         const stringArray = string.split('').reverse();
         const search = document.getElementById('search');
         search.addEventListener('keydown', e => {
-            e.preventDefault();
+            if (e.keyCode === 37 || e.keyCode === 39) {
+                return;
+            } else {
+                e.preventDefault()
+            }
             if(e.keyCode === 8) {
                 if (search.value.length > 0) {
                     stringArray.push(search.value[search.value.length - 1]);
