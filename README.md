@@ -12,4 +12,3 @@ TODO:
  - click on random url
  - randomly choose search engines
  - small chance of rickrolling
- - morse code search
